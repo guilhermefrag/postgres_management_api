@@ -1,0 +1,17 @@
+meta {
+  name: PUT_schema-:name-update
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{host}}/schema/teste/update/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "new_schema_name": "teste5555"
+  }
+}

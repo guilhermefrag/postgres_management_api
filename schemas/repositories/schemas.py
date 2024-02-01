@@ -34,4 +34,8 @@ def create_schema_repository(schema_name: str) -> None:
     with DatabaseManager("default") as db:
         db.execute(f"CREATE SCHEMA {schema_name}")
         
+def update_schema_repository(schema_name: str, new_schema_name: str) -> None:
+    schema_error_handling(new_schema_name)
+    with DatabaseManager("default") as db:
+        db.execute(f"ALTER SCHEMA {schema_name} RENAME TO {new_schema_name}")
 

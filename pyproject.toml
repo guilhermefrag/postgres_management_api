@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "postgres-management-api"
+version = "0.1.0"
+description = ""
+authors = ["Guilherme Fragnani Bez Fontana <guilhermefragnani@icloud.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+djangorestframework = "^3.14.0"
+markdown = "^3.5.2"
+django-filter = "^23.5"
+django-environ = "^0.11.2"
+psycopg2-binary = "^2.9.9"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

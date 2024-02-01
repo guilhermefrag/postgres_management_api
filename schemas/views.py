@@ -40,7 +40,7 @@ def create_schema(request: HttpRequest) -> HttpResponse:
             status=status.HTTP_400_BAD_REQUEST,
         )
     try:
-        schema = create_schema_repository(schema_name)
+        create_schema_repository(schema_name)
     except ValidationError as e:
         return Response(
             {"error": e.message},

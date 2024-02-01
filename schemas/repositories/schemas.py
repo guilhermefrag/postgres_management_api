@@ -1,7 +1,37 @@
 from generics.classes.database_manager import DatabaseManager
+from schemas.service.errors import schema_error_handling
+
+
+def get_all_schemas_repository() -> dict:
+    with DatabaseManager("default") as db:
+        json_data = []
+        db.execute(
+            """SELECT row_to_json(schemas) 
+                FROM (SELECT * 
+                    FROM information_schema.schemata
+                    WHERE schema_name NOT LIKE 'pg_%' 
+                    AND schema_name != 'information_schema') schemas"""
+        )
+        json_data.extend(item[0] for item in db.fetchall())
+
+        return json_data
+
+
+def get_schema_repository(schema_name: str) -> dict:
+    with DatabaseManager("default") as db:
+        db.execute(
+            f"""SELECT row_to_json(schemas) 
+                FROM (SELECT * 
+                    FROM information_schema.schemata
+                    WHERE schema_name = '{schema_name}') schemas"""
+        )
+        
+        return db.fetchone()
 
 
 def create_schema_repository(schema_name: str) -> None:
+    schema_error_handling(schema_name)
     with DatabaseManager("default") as db:
         db.execute(f"CREATE SCHEMA {schema_name}")
-    print(f"Schema {schema_name} created.")
+        
+

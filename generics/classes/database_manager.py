@@ -15,3 +15,9 @@ class DatabaseManager:
     def execute(self, query):
         self.cursor.execute(query)
         
+    def fetchall(self):
+        return self.cursor.fetchall()
+    
+    def fetchone(self):
+        return self.cursor.fetchone()
+        

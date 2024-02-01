@@ -1,0 +1,17 @@
+meta {
+  name: POST_schema
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{host}}/schema/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "schema_name": "teste"
+  }
+}

@@ -1,0 +1,18 @@
+meta {
+  name: POST_table
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{host}}/table/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "table_name": "name",
+    "schema_name": "schema_name"
+  }
+}

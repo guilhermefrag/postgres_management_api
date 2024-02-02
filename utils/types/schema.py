@@ -1,10 +1,10 @@
-from typing import TypedDict
+from typing import TypedDict, Optional
 
 class Schema(TypedDict):
     catalog_name: str
     schema_name: str
     schema_owner: str
-    default_character_set_catalog: str
-    default_character_set_schema: str
-    default_character_set_name: str
-    sql_path: str
+    default_character_set_catalog: Optional[str]
+    default_character_set_schema: Optional[str]
+    default_character_set_name: Optional[str]
+    sql_path: Optional[str]

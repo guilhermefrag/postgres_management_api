@@ -1,8 +1,9 @@
+from typing import List
+
 from django.http import HttpResponse
 from django.forms import ValidationError
 from django.db import transaction
 from django.http import HttpRequest
-from django.db.models.query import QuerySet
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -20,13 +21,18 @@ from .repositories.schemas import (
 
 @api_view(["GET"])
 @transaction.atomic
-def get_schemas(request: HttpRequest) -> QuerySet[Schema]:
+def get_schemas(request: HttpRequest) -> List[Schema]:
     """
     Get all schemas
     """
     try:
         database_name = request.headers.get("Db-Name", "default")
         schemas = get_all_schemas_repository(database_name)
+        if not schemas:
+            return Response(
+                {"error": "Schemas not found"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
     except Exception as e:
         return Response(
             {"error": str(e)},
@@ -44,6 +50,11 @@ def get_schema(request: HttpRequest, schema_name: int) -> Schema:
     try:
         database_name = request.headers.get("Db-Name", "default")
         schema = get_schema_repository(schema_name, database_name)
+        if not schema:
+            return Response(
+                {"error": "Schema not found"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
     except Exception as e:
         return Response(
             {"error": str(e)},

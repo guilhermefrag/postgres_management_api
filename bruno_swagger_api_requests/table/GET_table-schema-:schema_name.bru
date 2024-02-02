@@ -1,0 +1,11 @@
+meta {
+  name: GET_table-schema-:schema_name
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{host}}/table/schema/:schema_name/
+  body: none
+  auth: none
+}

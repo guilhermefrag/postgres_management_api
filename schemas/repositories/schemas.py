@@ -30,12 +30,12 @@ def get_schema_repository(schema_name: str, database_name: str = "default") -> d
 
 
 def create_schema_repository(schema_name: str, database_name: str = "default") -> None:
-    schema_error_handling(schema_name)
+    schema_error_handling(schema_name, database_name)
     with DatabaseManager(database_name) as db:
         db.execute(f"CREATE SCHEMA {schema_name}")
 
 
 def update_schema_repository(schema_name: str, new_schema_name: str, database_name: str = "default") -> None:
-    schema_error_handling(new_schema_name)
+    schema_error_handling(new_schema_name, database_name)
     with DatabaseManager(database_name) as db:
-        db.execute(f"ALTER SCHEMA {schema_name} RENAME TO {new_schema_name}")
+        db.execute(f"ALTER SCHEMA {schema_name} RENAME TO {new_schema_name};")

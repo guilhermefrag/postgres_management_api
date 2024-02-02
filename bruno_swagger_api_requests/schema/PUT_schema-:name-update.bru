@@ -5,13 +5,13 @@ meta {
 }
 
 put {
-  url: {{host}}/schema/teste/update/
+  url: {{host}}/schema/:schema_name/update/
   body: json
   auth: none
 }
 
 body:json {
   {
-    "new_schema_name": "teste5555"
+    "new_schema_name": "new_schema_name2"
   }
 }

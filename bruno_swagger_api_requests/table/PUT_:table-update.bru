@@ -1,0 +1,18 @@
+meta {
+  name: PUT_:table-update
+  type: http
+  seq: 6
+}
+
+put {
+  url: {{host}}/table/:table-name/update/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "new_table_name": "new_table_name",
+    "schema_name": "schema_name"
+  }
+}

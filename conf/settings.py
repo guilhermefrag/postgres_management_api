@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'conf.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.contrib.gis.db.backends.postgis",
+        "ENGINE": "django.db.backends.postgresql",
         "NAME": DATABASE_NAME,
         "HOST": DATABASE_HOST,
         "PASSWORD": DATABASE_PASSWORD,
@@ -95,7 +95,7 @@ DATABASES = {
         "OPTIONS": {"options": "-c search_path=public"},
     },
     # f"{DATABASE_NAME_MULTI}": {
-    #     "ENGINE": "django.contrib.gis.db.backends.postgis",
+    #     "ENGINE": "django.db.backends.postgresql",
     #     "NAME": DATABASE_NAME_MULTI,
     #     "HOST": DATABASE_HOST,
     #     "PASSWORD": DATABASE_PASSWORD,

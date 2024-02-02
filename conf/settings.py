@@ -94,16 +94,16 @@ DATABASES = {
         #SCHEMA IS SET AS PUBLIC, YOU CAN CHANGE IT TO YOUR SCHEMA
         "OPTIONS": {"options": "-c search_path=public"},
     },
-    f"{DATABASE_NAME_MULTI}": {
-        "ENGINE": "django.contrib.gis.db.backends.postgis",
-        "NAME": DATABASE_NAME_MULTI,
-        "HOST": DATABASE_HOST,
-        "PASSWORD": DATABASE_PASSWORD,
-        "USER": DATABASE_USER,
-        "PORT": DATABASE_PORT,
-        #SCHEMA IS SET AS PUBLIC, YOU CAN CHANGE IT TO YOUR SCHEMA
-        "OPTIONS": {"options": "-c search_path=public"},
-    },
+    # f"{DATABASE_NAME_MULTI}": {
+    #     "ENGINE": "django.contrib.gis.db.backends.postgis",
+    #     "NAME": DATABASE_NAME_MULTI,
+    #     "HOST": DATABASE_HOST,
+    #     "PASSWORD": DATABASE_PASSWORD,
+    #     "USER": DATABASE_USER,
+    #     "PORT": DATABASE_PORT,
+    #     #SCHEMA IS SET AS PUBLIC, YOU CAN CHANGE IT TO YOUR SCHEMA
+    #     "OPTIONS": {"options": "-c search_path=public"},
+    # },
 }
 
 

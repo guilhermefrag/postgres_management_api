@@ -19,18 +19,17 @@ environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = env("SECRET_KEY")
 DATABASE_HOST = env("DATABASE_HOST")
 DATABASE_PASSWORD = env("DATABASE_PASSWORD")
 DATABASE_USER = env("DATABASE_USER")
-DATABASE_NAME = env("DATABASE_NAME")
 DATABASE_PORT = env("DATABASE_PORT")
-
+DATABASE_NAME = env("DATABASE_NAME")
+DATABASE_NAME_MULTI = env("DATABASE_NAME_MULTI")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1v6#$u48$k7p0$_*fa_*aud)^18hi5@l0v!_opjq3p+3o+8%db'
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -88,6 +87,16 @@ DATABASES = {
     "default": {
         "ENGINE": "django.contrib.gis.db.backends.postgis",
         "NAME": DATABASE_NAME,
+        "HOST": DATABASE_HOST,
+        "PASSWORD": DATABASE_PASSWORD,
+        "USER": DATABASE_USER,
+        "PORT": DATABASE_PORT,
+        #SCHEMA IS SET AS PUBLIC, YOU CAN CHANGE IT TO YOUR SCHEMA
+        "OPTIONS": {"options": "-c search_path=public"},
+    },
+    f"{DATABASE_NAME_MULTI}": {
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
+        "NAME": DATABASE_NAME_MULTI,
         "HOST": DATABASE_HOST,
         "PASSWORD": DATABASE_PASSWORD,
         "USER": DATABASE_USER,

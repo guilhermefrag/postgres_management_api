@@ -1,7 +1,7 @@
 from django.db import connections
 
 class DatabaseManager:
-    def __init__(self, database_name):
+    def __init__(self, database_name="default"):
         self.database_name = database_name
 
     def __enter__(self):

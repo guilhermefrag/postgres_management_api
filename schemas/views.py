@@ -25,7 +25,8 @@ def get_schemas(request: HttpRequest) -> QuerySet[Schema]:
     Get all schemas
     """
     try:
-        schemas = get_all_schemas_repository()
+        database_name = request.headers.get("Db-Name", "default")
+        schemas = get_all_schemas_repository(database_name)
     except Exception as e:
         return Response(
             {"error": str(e)},
@@ -41,7 +42,8 @@ def get_schema(request: HttpRequest, schema_name: int) -> Schema:
     Get a schema by its name.
     """
     try:
-        schema = get_schema_repository(schema_name)
+        database_name = request.headers.get("Db-Name", "default")
+        schema = get_schema_repository(schema_name, database_name)
     except Exception as e:
         return Response(
             {"error": str(e)},
@@ -56,6 +58,7 @@ def create_schema(request: HttpRequest) -> HttpResponse:
     """
     Create a new schema.
     """
+    database_name = request.headers.get("Db-Name", "default")
     schema_name = request.data.get("schema_name")
     if not schema_name:
         return Response(
@@ -63,7 +66,7 @@ def create_schema(request: HttpRequest) -> HttpResponse:
             status=status.HTTP_400_BAD_REQUEST,
         )
     try:
-        create_schema_repository(schema_name)
+        create_schema_repository(schema_name, database_name)
     except ValidationError as e:
         return Response(
             {"error": e.message},
@@ -85,6 +88,7 @@ def update_schema(request: HttpRequest, schema_name: int) -> HttpResponse:
     """
     Update a schema by its name.
     """
+    database_name = request.headers.get("Db-Name", "default")
     new_schema_name = request.data.get("new_schema_name")
     if not new_schema_name:
         return Response(
@@ -92,7 +96,7 @@ def update_schema(request: HttpRequest, schema_name: int) -> HttpResponse:
             status=status.HTTP_400_BAD_REQUEST,
         )
     try:
-        update_schema_repository(schema_name, new_schema_name)
+        update_schema_repository(schema_name, new_schema_name, database_name)
     except ValidationError as e:
         return Response(
             {"error": e.message},

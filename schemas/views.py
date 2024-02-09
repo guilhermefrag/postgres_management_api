@@ -18,7 +18,6 @@ from .repositories.schemas import (
     update_schema_repository,
 )
 
-
 @api_view(["GET"])
 @transaction.atomic
 def get_schemas(request: HttpRequest) -> List[Schema]:

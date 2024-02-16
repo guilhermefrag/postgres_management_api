@@ -7,6 +7,7 @@ from tables.views import (
     get_table_from_schema,
     create_table,
     update_table,
+    delete_table,
 )
 
 
@@ -25,4 +26,5 @@ urlpatterns = [
         get_table_from_schema,
         name="get table from schema",
     ),
+    path("<str:table_name>/delete/", delete_table, name="delete table"),
 ]

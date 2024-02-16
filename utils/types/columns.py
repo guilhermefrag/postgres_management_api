@@ -1,0 +1,47 @@
+from typing import TypedDict, Optional
+
+class Column(TypedDict):
+    table_catalog: str
+    table_schema: str
+    table_name: str
+    column_name: str
+    ordinal_position: str
+    column_default: str
+    is_nullable: str
+    data_type: str
+    character_maximum_length: Optional[str]
+    character_octet_length: Optional[str]
+    numeric_precision: Optional[str]
+    numeric_precision_radix: Optional[str]
+    numeric_scale: Optional[str]
+    datetime_precision: Optional[str]
+    interval_type: Optional[str]
+    interval_precision: Optional[str]
+    character_set_catalog: Optional[str]
+    character_set_schema: Optional[str]
+    character_set_name: Optional[str]
+    collation_catalog: Optional[str]
+    collation_schema: Optional[str]
+    collation_name: Optional[str]
+    domain_catalog: Optional[str]
+    domain_schema: Optional[str]
+    domain_name: Optional[str]
+    udt_catalog: str
+    udt_schema: str
+    udt_name: str
+    scope_catalog: Optional[str]
+    scope_schema: Optional[str]
+    scope_name: Optional[str]
+    maximum_cardinality: Optional[str]
+    dtd_identifier: str
+    is_self_referencing: str
+    is_identity: str
+    identity_generation: Optional[str]
+    identity_start: Optional[str]
+    identity_increment: Optional[str]
+    identity_maximum: Optional[str]
+    identity_minimum: Optional[str]
+    identity_cycle: str
+    is_generated: str
+    generation_expression: Optional[str]
+    is_updatable: str

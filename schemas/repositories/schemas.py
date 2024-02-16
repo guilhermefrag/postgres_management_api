@@ -1,8 +1,10 @@
+from typing import List
 from generics.classes.database_manager import DatabaseManager
 from schemas.service.errors import schema_error_handling
+from utils.types.schema import Schema
 
 
-def get_all_schemas_repository(database_name: str = "default") -> dict:
+def get_all_schemas_repository(database_name: str = "default") -> List[Schema]:
     with DatabaseManager(database_name) as db:
         json_data = []
         db.execute(
@@ -17,7 +19,7 @@ def get_all_schemas_repository(database_name: str = "default") -> dict:
         return json_data
 
 
-def get_schema_repository(schema_name: str, database_name: str = "default") -> dict:
+def get_schema_repository(schema_name: str, database_name: str = "default") -> Schema:
     with DatabaseManager(database_name) as db:
         db.execute(
             f"""SELECT row_to_json(schemas) 
@@ -39,3 +41,7 @@ def update_schema_repository(schema_name: str, new_schema_name: str, database_na
     schema_error_handling(new_schema_name, database_name)
     with DatabaseManager(database_name) as db:
         db.execute(f"ALTER SCHEMA {schema_name} RENAME TO {new_schema_name};")
+
+def delete_schema_repository(schema_name: str, database_name: str = "default") -> None:
+    with DatabaseManager(database_name) as db:
+        db.execute(f"DROP SCHEMA {schema_name} CASCADE")

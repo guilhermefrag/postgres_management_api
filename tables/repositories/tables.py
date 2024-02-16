@@ -1,7 +1,9 @@
+from typing import List
 from generics.classes.database_manager import DatabaseManager
+from utils.types.table import Table
 
 
-def get_all_tables_repository(database_name: str = "default") -> dict:
+def get_all_tables_repository(database_name: str = "default") -> List[Table]:
     with DatabaseManager(database_name) as db:
         json_data = []
         db.execute(
@@ -16,7 +18,7 @@ def get_all_tables_repository(database_name: str = "default") -> dict:
         return json_data
 
 
-def get_table_repository(table_name: str, database_name: str = "default") -> dict:
+def get_table_repository(table_name: str, database_name: str = "default") -> Table:
     with DatabaseManager(database_name) as db:
         db.execute(
             f"""SELECT row_to_json(tables) 
@@ -30,7 +32,7 @@ def get_table_repository(table_name: str, database_name: str = "default") -> dic
 
 def get_tables_from_schema_repository(
     schema_name: str, database_name: str = "default"
-) -> dict:
+) -> List[Table]:
     with DatabaseManager(database_name) as db:
         json_data = []
         db.execute(
@@ -46,7 +48,7 @@ def get_tables_from_schema_repository(
 
 def get_table_from_schema_repository(
     table_name: str, schema_name: str, database_name: str = "default"
-) -> dict:
+) -> Table:
     with DatabaseManager(database_name) as db:
         db.execute(
             f"""SELECT row_to_json(tables) 
@@ -78,5 +80,13 @@ def update_table_repository(
         db.execute(
             f"""ALTER TABLE {schema_name}.{table_name} RENAME TO {new_table_name}"""
         )
+
+        return
+    
+def delete_table_repository(
+    table_name: str, schema_name: str, database_name: str = "default"
+) -> None:
+    with DatabaseManager(database_name) as db:
+        db.execute(f"DROP TABLE {schema_name}.{table_name}")
 
         return

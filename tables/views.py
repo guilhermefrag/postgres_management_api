@@ -16,11 +16,12 @@ from tables.repositories.tables import (
     get_tables_from_schema_repository,
     get_table_repository,
     update_table_repository,
+    delete_table_repository,
 )
 from tables.service.errors import table_error_handling
 from utils.types.table import Table
 
-# Create your views here.
+from drf_spectacular.utils import extend_schema
 
 
 @api_view(["GET"])
@@ -109,6 +110,14 @@ def get_table_from_schema(
     return Response({"table": table}, status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    request={
+        "examples": {
+            "example": {"schema_name": "example_schema", "table_name": "example_table"}
+        }
+    },
+    responses={201: {"description": "Table created successfully"}},
+)
 @api_view(["POST"])
 def create_table(request: HttpRequest) -> HttpResponse:
     """
@@ -133,6 +142,17 @@ def create_table(request: HttpRequest) -> HttpResponse:
         )
 
 
+@extend_schema(
+    request={
+        "examples": {
+            "example": {
+                "schema_name": "example_schema",
+                "new_table_name": "new_example_table",
+            }
+        }
+    },
+    responses={201: {"description": "Table updated successfully"}},
+)
 @api_view(["PUT"])
 def update_table(request: HttpRequest, table_name: str) -> HttpResponse:
     """
@@ -151,6 +171,25 @@ def update_table(request: HttpRequest, table_name: str) -> HttpResponse:
             {
                 "message": f"Table {table_name} updated to {new_table_name} successfully in schema {schema_name} !"
             },
+            status=status.HTTP_200_OK,
+        )
+    except Exception as error:
+        return Response(
+            {"error": error.message},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+        
+@api_view(["DELETE"])
+def delete_table(request: HttpRequest, table_name: str) -> HttpResponse:
+    """
+    Delete a table
+    """
+    try:
+        database_name = request.headers.get("Db-Name", "default")
+        with transaction.atomic():
+            delete_table_repository(table_name, database_name)
+        return Response(
+            {"message": f"Table {table_name} deleted successfully !"},
             status=status.HTTP_200_OK,
         )
     except Exception as error:

@@ -13,10 +13,13 @@ from utils.types.schema import Schema
 
 from .repositories.schemas import (
     create_schema_repository,
+    delete_schema_repository,
     get_all_schemas_repository,
     get_schema_repository,
     update_schema_repository,
 )
+
+from drf_spectacular.utils import extend_schema
 
 @api_view(["GET"])
 @transaction.atomic
@@ -61,7 +64,10 @@ def get_schema(request: HttpRequest, schema_name: int) -> Schema:
         )
     return Response({"schema": schema}, status=status.HTTP_200_OK)
 
-
+@extend_schema(
+    request={"examples": {"example": {"schema_name": "example_schema"}}},
+    responses={201: {"description": "Schema created successfully"}},
+)
 @api_view(["POST"])
 @transaction.atomic
 def create_schema(request: HttpRequest) -> HttpResponse:
@@ -91,7 +97,10 @@ def create_schema(request: HttpRequest) -> HttpResponse:
         {"message": f"Schema {schema_name} created!"}, status=status.HTTP_201_CREATED
     )
 
-
+@extend_schema(
+    request={"examples": {"example": {"new_schema_name": "new_example_schema"}}},
+    responses={201: {"description": "Schema updated successfully"}},
+)
 @api_view(["PUT"])
 @transaction.atomic
 def update_schema(request: HttpRequest, schema_name: int) -> HttpResponse:
@@ -120,4 +129,21 @@ def update_schema(request: HttpRequest, schema_name: int) -> HttpResponse:
     return Response(
         {"message": f"Schema {schema_name} updated to {new_schema_name}!"},
         status=status.HTTP_200_OK,
+    )
+    
+@api_view(["DELETE"])
+def delete_schema(request: HttpRequest, schema_name: int) -> HttpResponse:
+    """
+    Delete a schema by its name.
+    """
+    database_name = request.headers.get("Db-Name", "default")
+    try:
+        delete_schema_repository(schema_name, database_name)
+    except Exception as e:
+        return Response(
+            {"error": str(e)},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+    return Response(
+        {"message": f"Schema {schema_name} deleted!"}, status=status.HTTP_200_OK
     )
